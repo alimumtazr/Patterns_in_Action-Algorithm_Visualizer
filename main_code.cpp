@@ -85,3 +85,24 @@ sf::Text sp;
 sf::Text timerText;
 
 sf::Clock timerClock; 
+string intToString(int value)
+{
+    ostringstream oss;
+    oss << value;
+    return oss.str();
+}
+
+void updateTimer()
+{
+    if(timerRunning)
+    {
+        sf::Time deltaTime = timerClock.restart();
+        elapsedTime += deltaTime.asMilliseconds();
+
+        int minutes = elapsedTime / 60000;
+        int seconds = (elapsedTime % 60000) / 1000;
+        int milliseconds = (elapsedTime % 1000) / 10; // Deciseconds
+
+        timerText.setString(intToString(minutes) + "m " + intToString(seconds) + "s " + intToString(milliseconds) + "ms");
+    }
+}

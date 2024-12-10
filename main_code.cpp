@@ -106,3 +106,65 @@ void updateTimer()
         timerText.setString(intToString(minutes) + "m " + intToString(seconds) + "s " + intToString(milliseconds) + "ms");
     }
 }
+void render(sf::RenderWindow &window)
+{
+	window.draw(bgs);
+    window.draw(bos);
+    window.draw(solgs);
+    window.draw(b1s);
+    window.draw(b2s);
+    window.draw(b3s);
+    window.draw(b4s);
+    window.draw(b5s);
+    window.draw(b6s);
+    window.draw(spls);
+    window.draw(sprs);
+    window.draw(nls);
+    window.draw(nrs);
+    window.draw(sp);
+    window.draw(nnp);
+    window.draw(res);
+    window.draw(times);
+    window.draw(sped);
+    window.draw(timerText);
+}
+
+void drawArray(sf::RenderWindow &window, const std::vector<int> &array, int id1 , int id2, bool q, bool f)
+{
+    window.clear();
+    render(window);
+    if(f == false)
+    {
+    	updateTimer();
+	}
+    for(int i = 0; i < array.size(); i++)
+    {
+        sf::RectangleShape bar(sf::Vector2f(BAR_WIDTH - 2, array[i]));
+        if(i == id2)
+		{
+            bar.setFillColor(sf::Color::Green);
+        }
+		else if(i == id1)
+		{
+            bar.setFillColor(sf::Color::Red);
+            tSound.play();
+        }
+        else
+        {
+            bar.setFillColor(sf::Color::White);
+        }
+        bar.setPosition(i * BAR_WIDTH + 50, WINDOW_HEIGHT - array[i] + 50);
+        window.draw(bar);
+    }
+    if(q == true)
+    {
+    	for(int i = 0 ; i < array.size() ; i++)
+    	{
+    		sf::RectangleShape bar(sf::Vector2f(BAR_WIDTH - 2, array[i]));
+            bar.setFillColor(sf::Color::Green);
+            bar.setPosition(i * BAR_WIDTH + 50, WINDOW_HEIGHT - array[i] + 50);
+            window.draw(bar);
+		}
+	}
+    window.display();
+}

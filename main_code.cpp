@@ -168,3 +168,94 @@ void drawArray(sf::RenderWindow &window, const std::vector<int> &array, int id1 
 	}
     window.display();
 }
+void bubbleSort(sf::RenderWindow &window, vector<int> &array)
+{
+    for(int i = 0 ; i < array.size() - 1 ; i++)
+    {
+        for(int j = 0 ; j < array.size() - i - 1 ; j++)
+        {
+        	if(!window.isOpen())
+            {
+                beepSound.stop(); 
+                return;   
+            }
+            if(array[j] > array[j + 1])
+            {
+                int temp = array[j + 1];
+                array[j + 1] = array[j];
+                array[j] = temp;
+            }
+            drawArray(window, array , j , j + 1 , false , false);
+            beepSound.play();
+            sf::Event event;
+            while(window.pollEvent(event))
+            {
+                if(event.type == sf::Event::Closed)
+                {   
+                    beepSound.stop();
+                    window.close();
+                }
+            }
+            sleep(sf::milliseconds(speed));
+        }
+    }
+}
+
+void mergeSort(sf::RenderWindow &window, vector<int>& array)
+{
+    int n = array.size();
+    vector<int> temp(n);
+
+    for(int size = 1 ; size < n ; size *= 2)
+	{
+        for(int leftStart = 0 ; leftStart < n ; leftStart += 2 * size)
+		{
+            int mid = min(leftStart + size - 1 , n - 1);
+            int rightEnd = min(leftStart + 2 * size - 1 , n - 1);
+            int i = leftStart;
+            int j = mid + 1;
+            int k = leftStart;
+
+            while(i <= mid && j <= rightEnd)
+			{
+                if(array[i] <= array[j])
+				{
+                    temp[k++] = array[i++];
+                }
+				else
+				{
+                    temp[k++] = array[j++];
+                }
+            }
+
+            while(i <= mid)
+			{
+                temp[k++] = array[i++];
+            }
+
+            while(j <= rightEnd)
+			{
+                temp[k++] = array[j++];
+            }
+
+            for(int m = leftStart; m <= rightEnd; m++)
+			{
+                array[m] = temp[m];
+            }
+
+            drawArray(window, array, leftStart, rightEnd, false , false);
+            beepSound.play();
+            sf::Event event;
+            while(window.pollEvent(event))
+			{
+                if(event.type == sf::Event::Closed)
+				{
+					beepSound.stop();
+                    window.close();
+                    return; 
+                }
+            }
+            sleep(sf::milliseconds(speed));
+        }
+    }
+}

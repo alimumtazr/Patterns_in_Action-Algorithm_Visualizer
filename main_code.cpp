@@ -259,3 +259,67 @@ void mergeSort(sf::RenderWindow &window, vector<int>& array)
         }
     }
 }
+
+void insertionSort(sf::RenderWindow &window, vector<int>& array)
+{
+    int n = array.size();
+    
+    for(int i = 1 ; i < n ; i++)
+    {
+    	int j = i - 1;
+    	int k = array[i];
+    	while(j >= 0 && array[j] > k)
+    	{
+    		array[j + 1] = array[j];
+    		j--;
+    		drawArray(window, array, i, j + 1, false , false);
+    		beepSound.play();
+    		sf::Event event;
+            while(window.pollEvent(event))
+			{
+                if(event.type == sf::Event::Closed)
+				{
+					beepSound.stop();
+                    window.close();
+                    return; 
+                }
+            }
+            sleep(sf::milliseconds(speed));
+		}
+		array[j + 1] = k;
+	}
+}
+
+void selectionSort(sf::RenderWindow &window, vector<int>& array)
+{
+    int n = array.size();
+    vector<int> temp(n);
+    
+	for(int i = 0 ; i < n - 1 ; i++)
+	{
+		int k = i;
+		for(int j = i + 1 ; j < n ; j++)
+		{
+			if(array[j] < array[k])
+			{
+				k = j;
+			}
+			drawArray(window, array, i , j , false , false);
+			beepSound.play();
+    		sf::Event event;
+            while(window.pollEvent(event))
+			{
+                if(event.type == sf::Event::Closed)
+				{
+					beepSound.stop();
+                    window.close();
+                    return; 
+                }
+            }
+            sleep(sf::milliseconds(speed));
+		}
+		int temp = array[i];
+		array[i] = array[k];
+		array[k] = temp;
+	}
+}

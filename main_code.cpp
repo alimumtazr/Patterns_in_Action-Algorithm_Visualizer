@@ -323,3 +323,113 @@ void selectionSort(sf::RenderWindow &window, vector<int>& array)
 		array[k] = temp;
 	}
 }
+void quickSort(sf::RenderWindow &window, vector<int>& array)
+{
+    vector<int> indices;
+    indices.push_back(0);
+    indices.push_back(array.size() - 1);
+
+    while(!indices.empty())
+	{
+        int high = indices.back(); indices.pop_back();
+        int low = indices.back(); indices.pop_back();
+
+        if(low < high)
+		{
+            int pivot = array[high];
+            int i = low - 1;
+
+            for(int j = low; j < high; j++)
+			{
+                if(array[j] < pivot)
+				{
+                    i++;
+                    std::swap(array[i], array[j]);
+                    drawArray(window, array, i, j, false , false);
+
+                    sf::Event event;
+                    while (window.pollEvent(event))
+					{
+                        if(event.type == sf::Event::Closed)
+						{
+							beepSound.stop();
+                            window.close();
+                            return;
+                        }
+                    }
+                    sleep(sf::milliseconds(speed));
+                }
+            }
+            int temp = array[i + 1];
+            array[i + 1] = array[high];
+            array[high] = temp;
+            drawArray(window, array, i + 1, high, false , false);
+            beepSound.play();
+            sf::Event event;
+            while(window.pollEvent(event))
+			{
+                if(event.type == sf::Event::Closed)
+				{
+					beepSound.stop();
+                    window.close();
+                    return;
+                }
+            }
+            sleep(sf::milliseconds(speed));
+
+            int pivotIndex = i + 1;
+
+            indices.push_back(low);
+            indices.push_back(pivotIndex - 1); 
+            indices.push_back(pivotIndex + 1);
+            indices.push_back(high); 
+        }
+    }
+}
+
+void shellSort(sf::RenderWindow &window, vector<int>& array)
+{
+    int n = array.size();
+    int gap = n / 2; 
+    while(gap > 0)
+	{
+        for(int i = gap; i < n; i++)
+		{
+            int temp = array[i];
+            int j = i;
+            while(j >= gap && array[j - gap] > temp)
+			{
+                array[j] = array[j - gap];
+                drawArray(window , array , j , j - gap , false , false);
+                beepSound.play();
+                sf::Event event;
+                while(window.pollEvent(event))
+				{
+                    if(event.type == sf::Event::Closed)
+					{
+						beepSound.stop();
+                        window.close();
+                        return;
+                    }
+                }
+                sleep(sf::milliseconds(speed));
+                j -= gap;
+            }
+            array[j] = temp;
+            drawArray(window , array , j , i , false , false);
+            beepSound.play();
+            sf::Event event;
+            while(window.pollEvent(event))
+			{
+                if(event.type == sf::Event::Closed)
+                {
+                	beepSound.stop();
+                    window.close();
+                    return;
+                }
+            }
+            sleep(sf::milliseconds(speed));
+        }
+        gap /= 2; 
+    }
+}

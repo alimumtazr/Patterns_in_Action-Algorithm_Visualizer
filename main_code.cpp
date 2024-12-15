@@ -433,3 +433,32 @@ void shellSort(sf::RenderWindow &window, vector<int>& array)
         gap /= 2; 
     }
 }
+void software(sf::RenderWindow &window)
+{
+    window.draw(timerText);
+    BAR_WIDTH = WINDOW_WIDTH / ARRAY_SIZE;
+    vector<int> array(ARRAY_SIZE);
+    bool done = false;
+
+    for(int i = 0; i < ARRAY_SIZE; i++)
+    {
+        array[i] = std::rand() % (WINDOW_HEIGHT - 200) + 20;
+    }
+
+    timerText.setString(intToString(minutes) + "m " + intToString(seconds) + "s " + intToString(milliseconds) + "ms");
+
+    while(window.isOpen())
+    {
+        drawArray(window, array, -1, -1, false, true);
+
+        sf::Event event;
+        while(window.pollEvent(event))
+        {
+            if(event.type == sf::Event::Closed)
+            {
+                beepSound.stop();
+                window.close();
+            }
+	} //more code to be added accordingly, please work on it and check whatsapp group for more descriptions of the next steps
+    }  //more code to be added accordingly, please work on it and check whatsapp group for more descriptions of the next steps
+} //more code to be added accordingly, please work on it and check whatsapp group for more descriptions of the next steps

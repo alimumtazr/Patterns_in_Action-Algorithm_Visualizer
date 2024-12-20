@@ -492,6 +492,70 @@ void software(sf::RenderWindow &window)
                     sleep(sf::milliseconds(500));
                     done = true;
                 }
+else if(b2s.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                {
+                    clickSound.play();
+                    sped.setString("Selection");
+                    if(done == true)
+                    {
+                        for(int i = 0; i < ARRAY_SIZE; i++)
+                        {
+                            array[i] = std::rand() % (WINDOW_HEIGHT - 200) + 20;
+                        }
+                        drawArray(window, array, 0, 0, false, true);
+                        sleep(sf::milliseconds(500));
+                    }
+                    elapsedTime = 0;
+                    timerClock.restart();
+                    timerRunning = true;
+                    selectionSort(window, array);
+                    timerRunning = false;
+                    sleep(sf::milliseconds(500));
+                    for(int i = 0; i < ARRAY_SIZE; i++)
+                    {
+                        drawArray(window, array, -1, i, false, true);
+                        sleep(sf::milliseconds(50));
+                        if(window.isOpen())
+                        {
+                            beepSound.play();
+                        }
+                    }
+                    sleep(sf::milliseconds(500));
+                    done = true;
+                }
+                else if(b3s.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                {
+                    clickSound.play();
+                    sped.setString("Insertion");
+                    if(done == true)
+                    {
+                        for(int i = 0; i < ARRAY_SIZE; i++)
+                        {
+                            array[i] = std::rand() % (WINDOW_HEIGHT - 200) + 20;
+                        }
+                        drawArray(window, array, 0, 0, false, true);
+                        sleep(sf::milliseconds(500));
+                    }
+                    elapsedTime = 0;
+                    timerClock.restart();
+                    timerRunning = true;
+                    insertionSort(window, array);
+                    timerRunning = false;
+                    sleep(sf::milliseconds(500));
+                    for(int i = 0; i < ARRAY_SIZE; i++)
+                    {
+                        drawArray(window, array, -1, i, false, true);
+                        sleep(sf::milliseconds(50));
+                        if(window.isOpen())
+                        {
+                            beepSound.play();
+                        }
+                    }
+                    sleep(sf::milliseconds(500));
+                    done = true;
+                }
+            }
+        }
+    }
+}
 	} //more code to be added accordingly, please work on it and check whatsapp group for more descriptions of the next steps
-    }  //more code to be added accordingly, please work on it and check whatsapp group for more descriptions of the next steps
-} //more code to be added accordingly, please work on it and check whatsapp group for more descriptions of the next steps

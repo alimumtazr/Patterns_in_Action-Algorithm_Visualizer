@@ -598,3 +598,21 @@ else if(b2s.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), 
             sleep(sf::milliseconds(500));
         }
     }
+int main()
+{
+sf::RenderWindow window(sf::VideoMode(ww, wh), "Sorting Visualizer");
+srand(static_cast<unsigned>(time(NULL)));
+
+beepBuffer.loadFromFile("write.wav");
+beepSound.setBuffer(beepBuffer);
+beepSound.setVolume(20);
+
+tBuffer.loadFromFile("read.wav");
+tSound.setBuffer(tBuffer);
+tSound.setVolume(20);
+
+clickBuffer.loadFromFile("bt.wav");
+clickSound.setBuffer(clickBuffer);
+clickSound.setVolume(20);
+
+}

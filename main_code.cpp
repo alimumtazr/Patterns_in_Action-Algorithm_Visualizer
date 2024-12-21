@@ -555,7 +555,46 @@ else if(b2s.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), 
                     done = true;
                 }
             }
+                else if (b4s.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                {
+                    clickSound.play();
+                    sped.setString("Merge");
+                    // Merge sort logic
+                }
+                else if (b5s.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                {
+                    clickSound.play();
+                    sped.setString("Shell");
+                    // Shell sort logic
+                }
+                else if (b6s.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                {
+                    clickSound.play();
+                    sped.setString("Quick");
+                    // Quick sort logic
+                }
+                else if (spls.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                {
+                    clickSound.play();
+                    speed -= 10;
+                    if (speed == 0) speed = 10;
+                }
+                else if (sprs.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                {
+                    clickSound.play();
+                    speed += 10;
+                    if (speed == 510) speed = 500;
+                }
+                else if (res.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                {
+                    clickSound.play();
+                    software(window); // Restart logic
+                }
+            }
+        }
+        if (done)
+        {
+            drawArray(window, array, 0, 0, true, true);
+            sleep(sf::milliseconds(500));
         }
     }
-}
-	} //more code to be added accordingly, please work on it and check whatsapp group for more descriptions of the next steps

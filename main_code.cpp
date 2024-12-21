@@ -614,5 +614,25 @@ tSound.setVolume(20);
 clickBuffer.loadFromFile("bt.wav");
 clickSound.setBuffer(clickBuffer);
 clickSound.setVolume(20);
+bgt.loadFromFile("bg1.png");
+bgs.setTexture(bgt);
+bgs.setScale(1.5, 1.5);
+
+bot.loadFromFile("board.png");
+bos.setTexture(bot);
+bos.setScale(1.52, 1.15);
+bos.setPosition(5, 150);
+
+solgt.loadFromFile("lgo.png");
+solgs.setTexture(solgt);
+solgs.setScale(1, 0.6);
+solgs.setPosition(-650, -200);
+
+b1t.loadFromFile("b11.png");
+b1s.setTexture(b1t);
+b1s.setScale(1.1, 1.2);
+b1s.setPosition(1095, 250);
+
+// Similarly for b2t to b6t...
 
 }

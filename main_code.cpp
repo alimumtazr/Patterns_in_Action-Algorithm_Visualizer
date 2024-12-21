@@ -633,6 +633,37 @@ b1s.setTexture(b1t);
 b1s.setScale(1.1, 1.2);
 b1s.setPosition(1095, 250);
 
-// Similarly for b2t to b6t...
+sf::Font font;
+font.loadFromFile("art.ttf");
 
+sped.setFont(font);
+sped.setString("");
+sped.setCharacterSize(80); 
+sped.setFillColor(sf::Color::Yellow);
+sped.setStyle(sf::Text::Bold);
+sped.move(1170, 130);
+
+sp.setFont(font);
+sp.setString(intToString(speed));
+sp.setCharacterSize(80); 
+sp.setFillColor(sf::Color::Yellow);
+sp.setStyle(sf::Text::Bold);
+sp.move(1250, 1295);
+
+nnp.setFont(font);
+nnp.setString(intToString(ARRAY_SIZE));
+nnp.setCharacterSize(80); 
+nnp.setFillColor(sf::Color::Yellow);
+nnp.setStyle(sf::Text::Bold);
+nnp.move(1250, 1390);
+
+timerText.setFont(font);
+timerText.setString(intToString(minutes) + "m " + intToString(seconds) + "s " + intToString(milliseconds) + "ms");
+timerText.setCharacterSize(40); 
+timerText.setFillColor(sf::Color::Black);
+timerText.setStyle(sf::Text::Bold);
+timerText.move(360, 1340);
+
+software(window);
+return 0;
 }

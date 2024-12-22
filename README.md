@@ -7,11 +7,6 @@
     <div align="center">
         <h1>Data Structures & Algorithms Visualization Engine</h1>
         <p>A high-performance, interactive visualization tool for understanding complex data structures and algorithms</p>  
-        <p>
-            <img src="/api/placeholder/120/32" alt="License" />
-            <img src="/api/placeholder/120/32" alt="Version" />
-            <img src="/api/placeholder/120/32" alt="Build Status" />
-        </p>
     </div>
     <h2>📖 Overview</h2>
     <p>

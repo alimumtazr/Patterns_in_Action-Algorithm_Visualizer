@@ -618,3 +618,328 @@ void drawNodeT(sf::RenderWindow& window, NodeT* node, sf::Font& font) {
     window.draw(circle);
     window.draw(valueText);
 }
+
+void drawNode(sf::RenderWindow& window, NodeT* node, sf::Font& font) {
+    sf::CircleShape circle(40); // Larger circle for better visibility
+    circle.setFillColor(sf::Color::White);
+    circle.setOutlineThickness(3);
+    circle.setOutlineColor(sf::Color::Black);
+    circle.setPosition(node->x - 40, node->y - 40);
+
+    sf::Text valueText;
+    valueText.setFont(font);
+    valueText.setString(std::to_string(node->value));
+    valueText.setCharacterSize(30);
+    valueText.setFillColor(sf::Color::Black);
+    valueText.setPosition(node->x - 20, node->y - 20); // Centered text
+
+    window.draw(circle);
+    window.draw(valueText);
+}
+
+
+void drawTree(sf::RenderWindow& window, NodeT* node, sf::Font& font, float thickness = 5.0f, sf::Color lineColor = sf::Color::White) {
+    if (!node) return;
+
+    // Helper function to draw a thick line
+    auto drawThickLine = [&](float x1, float y1, float x2, float y2, float thickness, sf::Color color) {
+        sf::Vector2f direction(x2 - x1, y2 - y1);
+        float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+
+        // Normalize and find perpendicular for thickness
+        direction /= length;
+        sf::Vector2f perpendicular(-direction.y, direction.x);
+
+        sf::RectangleShape line(sf::Vector2f(length, thickness));
+        line.setFillColor(color);
+        line.setOrigin(0, thickness / 2);
+        line.setPosition(x1, y1);
+        line.setRotation(std::atan2(direction.y, direction.x) * 180.f / 3.14159265f);
+
+        window.draw(line);
+        };
+
+    // Draw left child
+    if (node->left) {
+        drawThickLine(node->x, node->y, node->left->x, node->left->y, thickness, lineColor);
+        drawTree(window, node->left, font, thickness, lineColor);
+    }
+
+    // Draw right child
+    if (node->right) {
+        drawThickLine(node->x, node->y, node->right->x, node->right->y, thickness, lineColor);
+        drawTree(window, node->right, font, thickness, lineColor);
+    }
+
+    // Draw the current node
+    drawNode(window, node, font);
+}
+
+
+void drawTreeT(sf::RenderWindow& window, NodeT* node, sf::Font& font, float thickness = 5.0f, sf::Color lineColor = sf::Color::Red) {
+    if (!node) return;
+
+    // Helper function to draw a thick line
+    auto drawThickLine = [&](float x1, float y1, float x2, float y2, float thickness, sf::Color color) {
+        sf::Vector2f direction(x2 - x1, y2 - y1);
+        float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+
+        // Normalize and find perpendicular for thickness
+        direction /= length;
+        sf::Vector2f perpendicular(-direction.y, direction.x);
+
+        sf::RectangleShape line(sf::Vector2f(length, thickness));
+        line.setFillColor(color);
+        line.setOrigin(0, thickness / 2);
+        line.setPosition(x1, y1);
+        line.setRotation(std::atan2(direction.y, direction.x) * 180.f / 3.14159265f);
+
+        window.draw(line);
+        };
+
+    // Draw left child
+    if (node->left) {
+        drawThickLine(node->x, node->y, node->left->x, node->left->y, thickness, lineColor);
+        drawTreeT(window, node->left, font, thickness, lineColor);
+    }
+
+    // Draw right child
+    if (node->right) {
+        drawThickLine(node->x, node->y, node->right->x, node->right->y, thickness, lineColor);
+        drawTreeT(window, node->right, font, thickness, lineColor);
+    }
+    
+    // Draw the current node
+    drawNodeT(window, node, font);
+}
+
+
+// Position Nodes in the Tree
+void positionNodes(NodeT* node, float x, float y, float offsetX) {
+    if (!node) return;
+    node->x = x;
+    node->y = y;
+
+    // Increase vertical spacing and adjust horizontal spacing more gradually
+    positionNodes(node->left, x - offsetX, y + 100, offsetX / 1.5);
+    positionNodes(node->right, x + offsetX, y + 100, offsetX / 1.5);
+}
+
+
+class HashmapVisualizer {
+private:
+    sf::RenderWindow window;
+    sf::Font font;
+    std::unordered_map<int, std::vector<int>> hashmap;
+    const int bucketCount = 10;
+    std::vector<sf::RectangleShape> buckets;
+    std::unordered_map<int, std::vector<sf::CircleShape>> elements;
+
+    // GUI elements
+    sf::RectangleShape inputBox;
+    sf::Text inputText;
+    sf::Text titleText;
+    sf::Text instructionText;
+    sf::RectangleShape insertButton;
+    sf::Text insertButtonText;
+    sf::RectangleShape clearButton;
+    sf::Text clearButtonText;
+    std::string currentInput;
+    bool isTyping = false;
+
+    void initializeGUI() {
+        // Title
+        titleText.setFont(font);
+        titleText.setString("HashMap Visualization");
+        titleText.setCharacterSize(40);
+        titleText.setFillColor(sf::Color::White);
+        titleText.setPosition(50, 20);
+
+        // Instructions
+        instructionText.setFont(font);
+        instructionText.setString("Enter a number and click Insert");
+        instructionText.setCharacterSize(20);
+        instructionText.setFillColor(sf::Color::White);
+        instructionText.setPosition(50, 80);
+
+        // Input box
+        inputBox.setSize(sf::Vector2f(200, 40));
+        inputBox.setFillColor(sf::Color::White);
+        inputBox.setOutlineColor(sf::Color::Yellow);
+        inputBox.setOutlineThickness(2);
+        inputBox.setPosition(50, 120);
+
+        // Input text
+        inputText.setFont(font);
+        inputText.setCharacterSize(24);
+        inputText.setFillColor(sf::Color::Black);
+        inputText.setPosition(60, 125);
+
+        // Insert button
+        insertButton.setSize(sf::Vector2f(100, 40));
+        insertButton.setFillColor(sf::Color::Green);
+        insertButton.setPosition(260, 120);
+
+        insertButtonText.setFont(font);
+        insertButtonText.setString("Insert");
+        insertButtonText.setCharacterSize(20);
+        insertButtonText.setFillColor(sf::Color::Black);
+        insertButtonText.setPosition(275, 130);
+
+        // Clear button
+        clearButton.setSize(sf::Vector2f(100, 40));
+        clearButton.setFillColor(sf::Color::Red);
+        clearButton.setPosition(370, 120);
+
+        clearButtonText.setFont(font);
+        clearButtonText.setString("Clear");
+        clearButtonText.setCharacterSize(20);
+        clearButtonText.setFillColor(sf::Color::Black);
+        clearButtonText.setPosition(390, 130);
+
+        // Create buckets
+        for (int i = 0; i < bucketCount; i++) {
+            sf::RectangleShape bucket(sf::Vector2f(400, 50));
+            bucket.setFillColor(sf::Color(50, 50, 50));
+            bucket.setOutlineColor(sf::Color::Yellow);
+            bucket.setOutlineThickness(2);
+            bucket.setPosition(50, 200 + i * 70);
+            buckets.push_back(bucket);
+        }
+    }
+
+    void addElement(int key) {
+        int bucketIndex = key % bucketCount;
+        hashmap[bucketIndex].push_back(key);
+
+        sf::CircleShape element(20);
+        element.setFillColor(sf::Color::Red);
+        element.setOutlineColor(sf::Color::Yellow);
+        element.setOutlineThickness(2);
+
+        // Position elements in a chain within the bucket
+        float xPos = 470 + elements[bucketIndex].size() * 50;
+        float yPos = 210 + bucketIndex * 70;
+        element.setPosition(xPos, yPos);
+
+        elements[bucketIndex].push_back(element);
+    }
+
+    void clearHashmap() {
+        hashmap.clear();
+        elements.clear();
+    }
+
+    void draw() {
+        window.clear(sf::Color(30, 30, 30));
+
+        window.draw(titleText);
+        window.draw(instructionText);
+        window.draw(inputBox);
+        window.draw(inputText);
+        window.draw(insertButton);
+        window.draw(insertButtonText);
+        window.draw(clearButton);
+        window.draw(clearButtonText);
+
+        // Draw buckets and their indices
+        for (int i = 0; i < bucketCount; i++) {
+            window.draw(buckets[i]);
+
+            // Draw bucket index
+            sf::Text indexText;
+            indexText.setFont(font);
+            indexText.setCharacterSize(20);
+            indexText.setFillColor(sf::Color::Yellow);
+            indexText.setString("Bucket " + std::to_string(i));
+            indexText.setPosition(60, 210 + i * 70);
+            window.draw(indexText);
+        }
+
+        // Draw elements and their values
+        for (const auto& pair : elements) {
+            int bucketIndex = pair.first;
+            for (size_t i = 0; i < pair.second.size(); i++) {
+                window.draw(pair.second[i]);
+
+                // Draw the key value
+                sf::Text keyText;
+                keyText.setFont(font);
+                keyText.setCharacterSize(18);
+                keyText.setFillColor(sf::Color::White);
+                keyText.setString(std::to_string(hashmap[bucketIndex][i]));
+
+                // Center the text in the circle
+                sf::Vector2f circlePos = pair.second[i].getPosition();
+                keyText.setPosition(circlePos.x + 15, circlePos.y + 10);
+                window.draw(keyText);
+            }
+        }
+
+        window.display();
+    }
+
+public:
+    HashmapVisualizer() : window(sf::VideoMode(900, 900), "Hashmap Visualization") {
+        if (!font.loadFromFile("art.ttf")) {  // Use any font file you have
+            std::cerr << "Error loading font\n";
+            exit(1);
+        }
+        initializeGUI();
+    }
+
+    void run() {
+        while (window.isOpen()) {
+            sf::Event event;
+            while (window.pollEvent(event)) {
+                if (event.type == sf::Event::Closed)
+                    window.close();
+
+                if (event.type == sf::Event::MouseButtonPressed) {
+                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+                    // Handle input box click
+                    if (inputBox.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        isTyping = true;
+                        currentInput.clear();
+                        inputText.setString(currentInput);
+                    }
+
+                    // Handle insert button click
+                    if (insertButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        if (!currentInput.empty()) {
+                            try {
+                                int key = std::stoi(currentInput);
+                                addElement(key);
+                                currentInput.clear();
+                                inputText.setString(currentInput);
+                                isTyping = false;
+                            }
+                            catch (const std::invalid_argument&) {
+                                // Invalid input handling
+                            }
+                        }
+                    }
+
+                    // Handle clear button click
+                    if (clearButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        clearHashmap();
+                    }
+                }
+
+                // Handle text input
+                if (event.type == sf::Event::TextEntered && isTyping) {
+                    if (event.text.unicode == 8 && !currentInput.empty()) { // Backspace
+                        currentInput.pop_back();
+                    }
+                    else if (event.text.unicode >= '0' && event.text.unicode <= '9') {
+                        currentInput += static_cast<char>(event.text.unicode);
+                    }
+                    inputText.setString(currentInput);
+                }
+            }
+
+            draw();
+        }
+    }
+};

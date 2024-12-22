@@ -4,187 +4,182 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <h1>Data Structures and Algorithms Visualizer</h1>  
-    <p>An interactive educational tool for visualizing data structures and algorithms, designed for both students and educators. This project provides real-time animation of various algorithms and data structures, making complex concepts easier to understand.</p>
-    <h2>🎯 Main Features</h2>
+    <div align="center">
+        <h1>Data Structures & Algorithms Visualization Engine</h1>
+        <p>A high-performance, interactive visualization tool for understanding complex data structures and algorithms</p>  
+        <p>
+            <img src="/api/placeholder/120/32" alt="License" />
+            <img src="/api/placeholder/120/32" alt="Version" />
+            <img src="/api/placeholder/120/32" alt="Build Status" />
+        </p>
+    </div>
+    <h2>📖 Overview</h2>
+    <p>
+        The DSA Visualization Engine is a sophisticated educational tool designed to bridge the gap between theoretical computer science concepts and their practical implementation. Built with C++ and SFML, it provides real-time, interactive visualizations of fundamental data structures and algorithms, making complex concepts accessible through intuitive visual representations.
+    </p>
+    <h2>🌟 Key Features</h2>
+    <h3>Comprehensive Algorithm Suite</h3>
     <ul>
-        <li>Data Structure-specific algorithm selection</li>
-        <li>Random data generation for basic data structures</li>
-        <li>Custom data input for advanced data structures</li>
-        <li>Customizable visualization speed, colors, and sound effects</li>
-        <li>Comprehensive operation selection for advanced data structures</li>
-        <li>Time complexity analysis and performance monitoring</li>
-        <li>End-to-end visualization of data structure operations</li>
+        <li><strong>Sorting Algorithms</strong>
+            <ul>
+                <li>Comparison-Based: Bubble Sort, Merge Sort, Quick Sort</li>
+                <li>Distribution: Insertion Sort with Stack Implementation</li>
+                <li>Hybrid: Custom Selection Sort with Doubly Linked List</li>
+            </ul>
+        </li>
+        <li><strong>Tree Operations</strong>
+            <ul>
+                <li>Binary Search Tree with AVL balancing</li>
+                <li>Real-time traversal visualization</li>
+                <li>Dynamic node rebalancing</li>
+            </ul>
+        </li>
+        <li><strong>Graph Algorithms</strong>
+            <ul>
+                <li>Breadth-First Search with state visualization</li>
+                <li>Interactive node-edge manipulation</li>
+                <li>Real-time path finding</li>
+            </ul>
+        </li>
+        <li><strong>Hash Structure</strong>
+            <ul>
+                <li>Open addressing with linear probing</li>
+                <li>Collision resolution through chaining</li>
+                <li>Load factor visualization</li>
+            </ul>
+        </li>
     </ul>
-    <h2>👥 Target Users</h2> 
-    <h3>Students/Teachers/General Users</h3>
-    <ul>
-        <li>Algorithm selection based on specific data structures</li>
-        <li>Custom/Random data loading options</li>
-        <li>Interactive speed control</li>
-        <li>Visual and audio feedback</li>
-        <li>Detailed operation visualization</li>
-    </ul>
-    <h3>Developers</h3>
-    <ul>
-        <li>Access to modifiable codebase</li>
-        <li>Extensible architecture for new algorithms</li>
-        <li>Customizable visualization parameters</li>
-    </ul>
-    <h2>🔧 System Requirements</h2>
-    <ul>
-        <li>C++ compiler with C++11 support</li>
-        <li>SFML Graphics Library</li>
-        <li>Windows Operating System</li>
-        <li>Minimum 4GB RAM</li>
-        <li>Graphics card with basic 2D support</li>
-    </ul>
-    <h2>📊 Implementation Details</h2> 
-    <h3>Sorting Algorithms Implementation</h3>
-    <pre><code>// Bubble Sort (Complexity: O(n²))
-void bubbleSort(sf::RenderWindow& window, std::vector<int>& array) {
-    for (int i = 0; i < array.size() - 1; i++) {
-        for (int j = 0; j < array.size() - i - 1; j++) {
-            if (array[j] > array[j + 1]) {
-                std::swap(array[j], array[j + 1]);
-                drawArray(window, array, j, j + 1, false, false);
-            }
-        }
+    <h2>💻 Technical Architecture</h2>
+    <h3>Core Components</h3>
+    <pre><code>src/
+├── algorithms/
+│   ├── sorting/
+│   ├── tree/
+│   ├── graph/
+│   └── hash/
+├── visualization/
+│   ├── renderer/
+│   └── components/
+└── utils/
+    ├── data_generator/
+    └── performance_metrics/</code></pre>
+    <h3>Implementation Highlights</h3>
+    <pre><code>// Advanced BST Implementation with Visualization Support
+class BinarySearchTree {
+private:
+    struct Node {
+        int value;
+        Node* left;
+        Node* right;
+        Vector2f position;
+        float animationOffset;
+        Node(int v) : value(v), left(nullptr), right(nullptr),
+                     position(0, 0), animationOffset(0) {}
+    };
+    Node* root;
+    RenderWindow& window;
+    std::unique_ptr<Renderer> renderer;
+public:
+    void insert(int value) {
+        root = insertWithAnimation(root, value);
+        rebalanceTree();
+        updateNodePositions();
     }
-}</code></pre>
-    <h3>Binary Search Tree</h3>
-    <pre><code>// BST Node Structure
-struct NodeT {
-    int value;
-    NodeT* left;
-    NodeT* right;
-    float x, y; // Visualization coordinates
-    NodeT(int val) : value(val), left(nullptr), right(nullptr), x(0), y(0) {}
+    void visualize() {
+        renderer->beginFrame();
+        drawTree(root);
+        renderer->endFrame();
+    }
 };</code></pre>
-    <h3>HashMap Implementation</h3>
-    <pre><code>// HashMap Element Addition
-void addElement(int key) {
-    int bucketIndex = key % bucketCount;
-    hashmap[bucketIndex].push_back(key);   
-    sf::CircleShape element(20);
-    element.setFillColor(sf::Color::Red);
-    element.setPosition(470 + elements[bucketIndex].size() * 50,
-                       210 + bucketIndex * 70);
-    elements[bucketIndex].push_back(element);
-}</code></pre>
-    <h2>⚡ Performance Analysis</h2>
+    <h2>🔍 Performance Analysis</h2>
+    <h3>Algorithm Complexity</h3>
     <table>
         <tr>
-            <th>Algorithm</th>
-            <th>Data Structure</th>
+            <th>Operation</th>
             <th>Time Complexity</th>
             <th>Space Complexity</th>
-        </tr>
-        <tr>
-            <td>Bubble Sort</td>
-            <td>Array</td>
-            <td>O(n²)</td>
-            <td>O(1)</td>
-        </tr>
-        <tr>
-            <td>Selection Sort</td>
-            <td>Doubly Linked List</td>
-            <td>O(n²)</td>
-            <td>O(1)</td>
-        </tr>
-        <tr>
-            <td>Insertion Sort</td>
-            <td>Dynamic Stack & Array</td>
-            <td>O(n²)</td>
-            <td>O(n)</td>
-        </tr>
-        <tr>
-            <td>Merge Sort</td>
-            <td>Array, Recursion</td>
-            <td>O(n log n)</td>
-            <td>O(n)</td>
-        </tr>
-        <tr>
-            <td>Quick Sort</td>
-            <td>Array, Stack</td>
-            <td>O(n log n)</td>
-            <td>O(log n)</td>
+            <th>Implementation Notes</th>
         </tr>
         <tr>
             <td>BST Operations</td>
-            <td>Binary Search Tree</td>
-            <td>O(log n) average</td>
-            <td>O(n)</td>
+            <td>O(log n)</td>
+            <td>O(h)</td>
+            <td>Height-balanced implementation</td>
         </tr>
         <tr>
-            <td>HashMap Operations</td>
-            <td>Hash Table with Chaining</td>
-            <td>O(1) average, O(n) worst</td>
+            <td>Hash Operations</td>
+            <td>O(1) amortized</td>
             <td>O(n)</td>
+            <td>Dynamic resizing with load factor</td>
         </tr>
         <tr>
-            <td>Graph BFS</td>
-            <td>Graph + Queue</td>
+            <td>Graph Traversal</td>
             <td>O(V + E)</td>
             <td>O(V)</td>
+            <td>Optimized adjacency list</td>
         </tr>
     </table>
-    <h2>🎨 Visualization Features</h2>
+    <h2>🛠️ Development Setup</h2>  
+    <h3>Prerequisites</h3>
+    <pre><code>- C++17 compatible compiler
+- SFML 2.5.1 or higher
+- CMake 3.15+
+- 4GB RAM minimum
+- OpenGL 3.3+ compatible GPU</code></pre>
+
+    <h3>Build Instructions</h3>
+    <pre><code># Clone the repository
+git clone https://github.com/yourusername/dsa-visualization-engine.git
+
+# Create build directory
+mkdir build && cd build
+
+# Configure and build
+cmake ..
+cmake --build . --config Release
+
+# Run the application
+./dsa_visualizer</code></pre>
+    <h2>🎓 Educational Applications</h2>
     <ul>
-        <li><strong>Basic Data Structures:</strong>
+        <li><strong>Interactive Learning</strong>
             <ul>
-                <li>Real-time sorting animation</li>
-                <li>Color-coded operations</li>
-                <li>Performance timer</li>
-                <li>Sound effects for operations</li>
+                <li>Step-by-step algorithm execution</li>
+                <li>Visual state transitions</li>
+                <li>Real-time complexity analysis</li>
             </ul>
         </li>
-        <li><strong>Binary Search Tree:</strong>
+        <li><strong>Teaching Aid</strong>
             <ul>
-                <li>Interactive node insertion/deletion</li>
-                <li>Tree traversal visualization</li>
-                <li>Dynamic node positioning</li>
-            </ul>
-        </li>
-        <li><strong>HashMap:</strong>
-            <ul>
-                <li>Bucket-based collision handling</li>
-                <li>Real-time element insertion</li>
-                <li>Chain visualization</li>
-            </ul>
-        </li>
-        <li><strong>Graph:</strong>
-            <ul>
-                <li>Interactive BFS traversal</li>
-                <li>Color-coded node states</li>
-                <li>Edge visualization</li>
-            </ul>
-        </li>
-    </ul>
-    <h2>📁 Project Structure</h2>
-    <ul>
-        <li>Source files (*.cpp)</li>
-        <li>SFML headers</li>
-        <li>Resource files:
-            <ul>
-                <li>Sound effects (*.wav)</li>
-                <li>Textures (*.png)</li>
-                <li>Fonts (*.ttf)</li>
+                <li>Classroom demonstrations</li>
+                <li>Algorithm comparison</li>
+                <li>Performance visualization</li>
             </ul>
         </li>
     </ul>
     <h2>🤝 Contributing</h2>
-    <p>Contributions are welcome! Feel free to:</p>
+    <p>We welcome contributions! Please see our <code>CONTRIBUTING.md</code> for guidelines.</p>
+    <h3>Development Workflow</h3>
+    <ol>
+        <li>Fork the repository</li>
+        <li>Create a feature branch (<code>git checkout -b feature/improvement</code>)</li>
+        <li>Make your changes with appropriate tests</li>
+        <li>Update documentation as needed</li>
+        <li>Submit a pull request</li>
+    </ol>
+    <h2>📄 License</h2>
+    <p>This project is licensed under the MIT License - see the <code>LICENSE</code> file for details.</p>
+    <h2>📚 Documentation</h2>
+    <p>Comprehensive documentation is available in the <code>docs/</code> directory:</p>
     <ul>
-        <li>Add new algorithms</li>
-        <li>Improve visualizations</li>
-        <li>Enhance performance</li>
-        <li>Fix bugs</li>
-        <li>Add documentation</li>
+        <li><code>api_reference.md</code> - Detailed API documentation</li>
+        <li><code>architecture.md</code> - System architecture and design</li>
+        <li><code>contributing.md</code> - Contribution guidelines</li>
     </ul>
-    <h2>📝 License</h2>
-    <p>This project is licensed under the MIT License - see the LICENSE file for details</p>
     <hr>
-    <p align="center">Made with ❤️ for algorithm enthusiasts and computer science students</p>
+    <div align="center">
+        <p>Built with precision and passion for computer science education.</p>
+        <p>© 2024 DSA Visualization Engine Team</p>
+    </div>
 </body>
 </html>

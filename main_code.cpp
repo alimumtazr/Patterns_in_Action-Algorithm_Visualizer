@@ -1127,3 +1127,472 @@ struct NodeG {
             }
         }
     };
+
+void software(sf::RenderWindow& window)
+    {
+        window.draw(timerText);
+        BAR_WIDTH = WINDOW_WIDTH / ARRAY_SIZE;
+        vector<int> array(ARRAY_SIZE);
+        bool done = false;
+        for (int i = 0; i < ARRAY_SIZE; i++)
+        {
+            array[i] = rand() % (WINDOW_HEIGHT - 200) + 20;
+        }
+        int seconds = 0;
+        int milliseconds = 0;
+        timerText.setString(intToString(minutes) + "m " + intToString(seconds) + "s " + intToString(milliseconds) + "ms");
+        BST tree;
+
+        while (window.isOpen())
+        {
+            drawArray(window, array, -1, -1, false, true);
+
+            sf::Event event;
+            while (window.pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed)
+                {
+                    beepSound.stop();
+                    window.close();
+                }
+                else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+                {
+                    if (b1s.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                    {
+                        clickSound.play();
+
+                        if (done == true)
+                        {
+                            for (int i = 0; i < ARRAY_SIZE; i++)
+                            {
+                                array[i] = std::rand() % (WINDOW_HEIGHT - 200) + 20;
+                            }
+                            drawArray(window, array, 0, 0, false, true);
+                            sleep(sf::milliseconds(500));
+                        }
+                        elapsedTime = 0;
+                        timerClock.restart();
+                        timerRunning = true;
+                        bubbleSort(window, array);
+                        timerRunning = false;
+                        sleep(sf::milliseconds(500));
+                        for (int i = 0; i < ARRAY_SIZE; i++)
+                        {
+                            drawArray(window, array, -1, i, false, true);
+                            sleep(sf::milliseconds(50));
+                            if (window.isOpen())
+                            {
+                                beepSound.play();
+                            }
+                            sf::Event event;
+                            while (window.pollEvent(event))
+                            {
+                                if (event.type == sf::Event::Closed)
+                                {
+                                    beepSound.stop();
+                                    window.close();
+                                    return;
+                                }
+                            }
+                        }
+                        sleep(sf::milliseconds(500));
+                        done = true;
+                    }
+                    else if (b2s.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                    {
+                        clickSound.play();
+                        if (done == true)
+                        {
+                            for (int i = 0; i < ARRAY_SIZE; i++)
+                            {
+                                array[i] = std::rand() % (WINDOW_HEIGHT - 200) + 20;
+                            }
+                            drawArray(window, array, 0, 0, false, true);
+                            sleep(sf::milliseconds(500));
+                        }
+                        elapsedTime = 0;
+                        timerClock.restart();
+                        timerRunning = true;
+                        selectionSort(window, array);
+                        timerRunning = false;
+                        sleep(sf::milliseconds(500));
+                        for (int i = 0; i < ARRAY_SIZE; i++)
+                        {
+                            drawArray(window, array, -1, i, false, true);
+                            sleep(sf::milliseconds(50));
+                            if (window.isOpen())
+                            {
+                                beepSound.play();
+                            }
+                            sf::Event event;
+                            while (window.pollEvent(event))
+                            {
+                                if (event.type == sf::Event::Closed)
+                                {
+                                    beepSound.stop();
+                                    window.close();
+                                    return;
+                                }
+                            }
+                        }
+                        sleep(sf::milliseconds(500));
+                        done = true;
+                    }
+                    else if (b3s.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                    {
+                        clickSound.play();
+
+                        if (done == true)
+                        {
+                            for (int i = 0; i < ARRAY_SIZE; i++)
+                            {
+                                array[i] = std::rand() % (WINDOW_HEIGHT - 200) + 20;
+                            }
+                            drawArray(window, array, 0, 0, false, true);
+                            sleep(sf::milliseconds(500));
+                        }
+                        elapsedTime = 0;
+                        timerClock.restart();
+                        timerRunning = true;
+                        insertionSort(window, array);
+                        timerRunning = false;
+                        sleep(sf::milliseconds(500));
+                        for (int i = 0; i < ARRAY_SIZE; i++)
+                        {
+                            drawArray(window, array, -1, i, false, true);
+                            sleep(sf::milliseconds(50));
+                            if (window.isOpen())
+                            {
+                                beepSound.play();
+                            }
+                            sf::Event event;
+                            while (window.pollEvent(event))
+                            {
+                                if (event.type == sf::Event::Closed)
+                                {
+                                    beepSound.stop();
+                                    window.close();
+                                    return;
+                                }
+                            }
+                        }
+                        sleep(sf::milliseconds(500));
+                        done = true;
+                    }
+
+                    else if (bfss.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                    {
+                        BFSVisualizer visualizer;
+                        visualizer.run();
+                    }
+
+                    else if (hmps.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                    {
+                        HashmapVisualizer visualizer;
+                        visualizer.run();
+                    }
+
+
+                    else if (b4s.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                    {
+                        clickSound.play();
+
+                        if (done == true)
+                        {
+                            for (int i = 0; i < ARRAY_SIZE; i++)
+                            {
+                                array[i] = std::rand() % (WINDOW_HEIGHT - 200) + 20;
+                            }
+                            drawArray(window, array, 0, 0, false, true);
+                            sleep(sf::milliseconds(500));
+                        }
+                        elapsedTime = 0;
+                        timerClock.restart();
+                        timerRunning = true;
+                        mergeSort(window, array);
+                        timerRunning = false;
+                        sleep(sf::milliseconds(500));
+                        for (int i = 0; i < ARRAY_SIZE; i++)
+                        {
+                            drawArray(window, array, -1, i, false, true);
+                            sleep(sf::milliseconds(50));
+                            if (window.isOpen())
+                            {
+                                beepSound.play();
+                            }
+                            sf::Event event;
+                            while (window.pollEvent(event))
+                            {
+                                if (event.type == sf::Event::Closed)
+                                {
+                                    beepSound.stop();
+                                    window.close();
+                                    return;
+                                }
+                            }
+                        }
+                        sleep(sf::milliseconds(500));
+                        done = true;
+                    }
+                    else if (b5s.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                    {
+                        vector<int> array(ARRAY_SIZE);
+                        for (int i = 0; i < ARRAY_SIZE; i++)
+                        {
+                            array[i] = 0 % (WINDOW_HEIGHT - 200) + 20;
+                        }
+                        window.clear();
+                        render(window);
+                        clickSound.play();
+
+
+                        int nextValue = 0;
+                        sf::Font font;
+                        font.loadFromFile("art.ttf");
+
+                        sf::RectangleShape insertButton(sf::Vector2f(200, 40));
+                        insertButton.setFillColor(sf::Color::Yellow);
+                        insertButton.setPosition(750, 770);
+
+                        sf::Text buttonText;
+                        buttonText.setFont(font);
+                        buttonText.setString("Insert");
+                        buttonText.setCharacterSize(30);
+                        buttonText.setFillColor(sf::Color::Black);
+                        buttonText.setPosition(765, 780);
+
+                        sf::Text inputText;
+                        inputText.setFont(font);
+                        inputText.setCharacterSize(30);
+                        inputText.setFillColor(sf::Color::Black);
+                        inputText.setPosition(750, 730);
+
+                        sf::RectangleShape inputBox(sf::Vector2f(80, 30));
+                        inputBox.setFillColor(sf::Color::White);
+                        inputBox.setOutlineColor(sf::Color::Black);
+                        inputBox.setOutlineThickness(4);
+                        inputBox.setPosition(750, 730);
+
+                        sf::RectangleShape clearButton(sf::Vector2f(200, 40));
+                        clearButton.setFillColor(sf::Color::Red);
+                        clearButton.setPosition(750, 880);
+
+                        sf::Text clearButtonText;
+                        clearButtonText.setFont(font);
+                        clearButtonText.setString("Clear Tree");
+                        clearButtonText.setCharacterSize(30);
+                        clearButtonText.setFillColor(sf::Color::Black);
+                        clearButtonText.setPosition(750, 880);
+
+                        sf::RectangleShape deleteButton(sf::Vector2f(200, 40));
+                        deleteButton.setFillColor(sf::Color::Blue);
+                        deleteButton.setPosition(750, 930);
+
+                        sf::Text deleteButtonText;
+                        deleteButtonText.setFont(font);
+                        deleteButtonText.setString("Delete Node");
+                        deleteButtonText.setCharacterSize(30);
+                        deleteButtonText.setFillColor(sf::Color::Black);
+                        deleteButtonText.setPosition(750, 930);
+
+                        sf::RectangleShape exitButton(sf::Vector2f(200, 40));
+                        exitButton.setFillColor(sf::Color::Magenta);
+                        exitButton.setPosition(350, 900);
+
+                        sf::Text exitButtonText;
+                        exitButtonText.setFont(font);
+                        exitButtonText.setString("Exit Tree Mode");
+                        exitButtonText.setCharacterSize(30);
+                        exitButtonText.setFillColor(sf::Color::Black);
+                        exitButtonText.setPosition(350, 900);
+
+                        sf::RectangleShape inorderT(sf::Vector2f(200, 40));
+                        inorderT.setFillColor(sf::Color::Magenta);
+                        inorderT.setPosition(350, 950);
+
+                        sf::Text inorderTText;
+                        inorderTText.setFont(font);
+                        inorderTText.setString("InOrder");
+                        inorderTText.setCharacterSize(30);
+                        inorderTText.setFillColor(sf::Color::Black);
+                        inorderTText.setPosition(350, 950);
+
+
+                        while (window.isOpen()) {
+                            sf::Event event;
+                            while (window.pollEvent(event)) {
+                                if (event.type == sf::Event::Closed)
+                                    window.close();
+
+                                // Ensure the window has focus for input
+                                if (!window.hasFocus()) continue;
+
+                                // Text Input Handling
+                                if (event.type == sf::Event::TextEntered) {
+                                    if (event.text.unicode >= '0' && event.text.unicode <= '9') {
+                                        nextValue = nextValue * 10 + (event.text.unicode - '0');
+                                        inputText.setString(std::to_string(nextValue));
+                                    }
+                                    else if (event.text.unicode == 8) { // Backspace
+                                        nextValue /= 10;
+                                        inputText.setString(nextValue > 0 ? std::to_string(nextValue) : "");
+                                    }
+                                }
+
+                                if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                                    sf::Vector2f mouse(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y));
+
+                                    // Insert Button
+                                    if (insertButton.getGlobalBounds().contains(mouse)) {
+                                        tree.insert(nextValue);
+                                        positionNodes(tree.root, 550, 270, 200);
+                                        nextValue = 0;
+                                        inputText.setString("");
+                                    }
+                                    // Clear Tree Button
+                                    else if (clearButton.getGlobalBounds().contains(mouse)) {
+                                        tree.root = nullptr; // Clear the tree
+                                        window.clear();
+                                        drawTree(window, tree.root, font, 5.0f, sf::Color::White);
+                                        render(window);
+                                    }
+                                    // Delete Node Button
+                                    else if (deleteButton.getGlobalBounds().contains(mouse)) {
+                                        tree.root = tree.deleteNode(tree.root, nextValue);
+                                        positionNodes(tree.root, 550, 270, 200); // Recalculate positions
+                                        nextValue = 0;
+                                        inputText.setString("");
+                                        window.clear();
+                                        render(window);
+                                    }
+                                    else if (exitButton.getGlobalBounds().contains(mouse)) {
+                                        software(window);
+                                    }
+                                    else if (inorderT.getGlobalBounds().contains(mouse)) {
+                                        window.clear(); // Clear the window
+                                        tree.inOrder(tree.root, window, font);
+                                        render(window); // Redraw the rest of the UI after traversal
+                                    }
+                                }
+
+                            }
+
+                            // Do not clear the window, so everything stays on the screen
+                            // window.clear(sf::Color::White); // Removed this line
+
+                            // Draw all UI elements
+                            window.draw(inputBox);
+                            window.draw(inputText);
+                            window.draw(insertButton);
+                            window.draw(buttonText);
+                            window.draw(clearButton);
+                            window.draw(clearButtonText);
+                            window.draw(deleteButton);
+                            window.draw(deleteButtonText);
+                            window.draw(exitButton);
+                            window.draw(exitButtonText);
+                            window.draw(inorderT);
+                            window.draw(inorderTText);
+                            // Draw the tree without wiping out previous elements
+                            drawTree(window, tree.root, font);
+
+                            // Display everything on the window
+                            window.display();
+                        }
+                    }
+
+                    else if (b6s.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                    {
+                        clickSound.play();
+
+                        if (done == true)
+                        {
+                            for (int i = 0; i < ARRAY_SIZE; i++)
+                            {
+                                array[i] = std::rand() % (WINDOW_HEIGHT - 200) + 20;
+                            }
+                            drawArray(window, array, 0, 0, false, true);
+                            sleep(sf::milliseconds(500));
+                        }
+                        elapsedTime = 0;
+                        timerClock.restart();
+                        timerRunning = true;
+                        quickSort(window, array);
+                        timerRunning = false;
+                        sleep(sf::milliseconds(500));
+                        for (int i = 0; i < ARRAY_SIZE; i++)
+                        {
+                            drawArray(window, array, -1, i, false, true);
+                            sleep(sf::milliseconds(50));
+                            if (window.isOpen())
+                            {
+                                beepSound.play();
+                            }
+                            sf::Event event;
+                            while (window.pollEvent(event))
+                            {
+                                if (event.type == sf::Event::Closed)
+                                {
+                                    beepSound.stop();
+                                    window.close();
+                                    return;
+                                }
+                            }
+                        }
+                        sleep(sf::milliseconds(500));
+                        done = true;
+                    }
+                    else if (spls.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                    {
+                        clickSound.play();
+                        speed -= 10;
+                        if (speed == 0)
+                        {
+                            speed = 10;
+                        }
+                    }
+                    else if (sprs.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                    {
+                        clickSound.play();
+                        speed += 10;
+                        if (speed == 510)
+                        {
+                            speed = 500;
+                        }
+                    }
+                    else if (nls.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                    {
+                        clickSound.play();
+                        ARRAY_SIZE -= 1;
+                        if (ARRAY_SIZE == 2)
+                        {
+                            ARRAY_SIZE = 3;
+                        }
+                        nnp.setString(intToString(ARRAY_SIZE));
+                        software(window);
+                    }
+                    else if (nrs.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                    {
+                        clickSound.play();
+                        ARRAY_SIZE += 1;
+                        if (ARRAY_SIZE == 101)
+                        {
+                            ARRAY_SIZE = 100;
+                        }
+                        nnp.setString(intToString(ARRAY_SIZE));
+                        software(window);
+                    }
+                    else if (res.getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+                    {
+                        clickSound.play();
+                        software(window);
+                    }
+                    sp.setString(intToString(speed));
+                }
+            }
+            if (done == true)
+            {
+                drawArray(window, array, 0, 0, true, true);
+                sleep(sf::milliseconds(500));
+            }
+        }}

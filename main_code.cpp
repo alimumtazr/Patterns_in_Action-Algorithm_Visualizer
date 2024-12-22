@@ -453,3 +453,168 @@ void selectionSort(sf::RenderWindow& window, std::vector<int>& array) {
 
     delete[] shiftStack;  // Clean up dynamically allocated memory at the end
 }
+
+void quickSort(sf::RenderWindow& window, vector<int>& array)
+{
+    vector<int> indices;
+    indices.push_back(0);
+    indices.push_back(array.size() - 1);
+
+    while (!indices.empty())
+    {
+        int high = indices.back(); indices.pop_back();
+        int low = indices.back(); indices.pop_back();
+
+        if (low < high)
+        {
+            int pivot = array[high];
+            int i = low - 1;
+
+            for (int j = low; j < high; j++)
+            {
+                if (array[j] < pivot)
+                {
+                    i++;
+                    std::swap(array[i], array[j]);
+                    drawArray(window, array, i, j, false, false);
+
+                    sf::Event event;
+                    while (window.pollEvent(event))
+                    {
+                        if (event.type == sf::Event::Closed)
+                        {
+                            beepSound.stop();
+                            window.close();
+                            return;
+                        }
+                    }
+                    sleep(sf::milliseconds(speed));
+                }
+            }
+            int temp = array[i + 1];
+            array[i + 1] = array[high];
+            array[high] = temp;
+            drawArray(window, array, i + 1, high, false, false);
+            beepSound.play();
+            sf::Event event;
+            while (window.pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed)
+                {
+                    beepSound.stop();
+                    window.close();
+                    return;
+                }
+            }
+            sleep(sf::milliseconds(speed));
+
+            int pivotIndex = i + 1;
+
+            indices.push_back(low);
+            indices.push_back(pivotIndex - 1);
+            indices.push_back(pivotIndex + 1);
+            indices.push_back(high);
+        }
+    }
+}
+
+struct NodeT {
+    int value;
+    NodeT* left;
+    NodeT* right;
+    float x, y; // Position for visualization
+
+    NodeT(int val) : value(val), left(nullptr), right(nullptr), x(0), y(0) {}
+};
+
+void drawNodeT(sf::RenderWindow& window, NodeT* node, sf::Font& font);
+// Binary Search Tree Class
+class BST {
+public:
+    NodeT* root;
+
+    BST() : root(nullptr) {}
+
+    // Insert a value into the BST
+    NodeT* insert(NodeT* node, int value) {
+        if (!node) return new NodeT(value);
+        if (value < node->value)
+            node->left = insert(node->left, value);
+        else if (value >= node->value)
+            node->right = insert(node->right, value);
+        return node;
+    }
+
+    void insert(int value) {
+        root = insert(root, value);
+    }
+
+    void inOrder(NodeT* root, sf::RenderWindow& window, sf::Font& font) {
+        if (!root) return;
+
+        // Traverse the left subtree
+        inOrder(root->left, window, font);
+
+        // Draw the current node
+        drawNodeT(window, root, font);
+        window.display(); // Refresh the window to show this node
+        sf::sleep(sf::milliseconds(500)); // Add a delay for visualization
+
+        // Traverse the right subtree
+        inOrder(root->right, window, font);
+    }
+
+
+    NodeT* deleteNode(NodeT* node, int value) {
+        if (!node) return nullptr;
+
+        if (value < node->value)
+            node->left = deleteNode(node->left, value);
+        else if (value > node->value)
+            node->right = deleteNode(node->right, value);
+        else {
+            // Node with only one child or no child
+            if (!node->left) {
+                NodeT* temp = node->right;
+                delete node;
+                return temp;
+            }
+            else if (!node->right) {
+                NodeT* temp = node->left;
+                delete node;
+                return temp;
+            }
+
+            // Node with two children: Get the inorder successor
+            NodeT* temp = minValueNode(node->right);
+            node->value = temp->value;
+            node->right = deleteNode(node->right, temp->value);
+        }
+        return node;
+    }
+
+    NodeT* minValueNode(NodeT* node) {
+        NodeT* current = node;
+        while (current && current->left != nullptr)
+            current = current->left;
+        return current;
+    }
+};
+
+void drawNodeT(sf::RenderWindow& window, NodeT* node, sf::Font& font) {
+    sf::CircleShape circle(40); // Larger circle for better visibility
+    circle.setFillColor(sf::Color::Red);
+    circle.setOutlineThickness(3);
+    circle.setOutlineColor(sf::Color::Black);
+    circle.setPosition(node->x - 40, node->y - 40);
+
+    sf::Text valueText;
+    valueText.setFont(font);
+    valueText.setString(std::to_string(node->value));
+    valueText.setCharacterSize(30);
+    valueText.setFillColor(sf::Color::Black);
+    valueText.setPosition(node->x - 20, node->y - 20); // Centered text
+
+    window.draw(circle);
+    window.draw(valueText);
+}

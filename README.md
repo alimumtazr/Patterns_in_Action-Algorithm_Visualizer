@@ -121,16 +121,9 @@ public:
 - CMake 3.15+
 - 4GB RAM minimum
 - OpenGL 3.3+ compatible GPU</code></pre>
-
     <h3>Build Instructions</h3>
     <pre><code># Clone the repository
 git clone https://github.com/yourusername/dsa-visualization-engine.git
-
-# Create build directory
-
-
-# Run the application
-./dsa_visualizer</code></pre>
     <h2>🎓 Educational Applications</h2>
     <ul>
         <li><strong>Interactive Learning</strong>

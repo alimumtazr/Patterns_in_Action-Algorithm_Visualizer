@@ -1596,3 +1596,99 @@ void software(sf::RenderWindow& window)
                 sleep(sf::milliseconds(500));
             }
         }}
+
+int main()
+{
+    sf::RenderWindow window(sf::VideoMode(ww, wh), "DSA Visualizer");
+    srand(static_cast<unsigned>(time(NULL)));
+
+    beepBuffer.loadFromFile("write.wav");
+    beepSound.setBuffer(beepBuffer);
+    beepSound.setVolume(20);
+
+    tBuffer.loadFromFile("read.wav");
+    tSound.setBuffer(tBuffer);
+    tSound.setVolume(20);
+
+    clickBuffer.loadFromFile("bt.wav");
+    clickSound.setBuffer(clickBuffer);
+    clickSound.setVolume(20);
+
+
+    bgt.loadFromFile("bg.png");
+    bgs.setTexture(bgt);
+    bgs.setScale(1, 1.2);
+    bgs.setPosition(0, 0);
+
+    bot.loadFromFile("board.png");
+    bos.setTexture(bot);
+    bos.setScale(1.52, 1.15);
+    bos.setPosition(5, 150);
+
+
+    bfst.loadFromFile("bfss.png");
+    bfss.setTexture(bfst);
+    bfss.setScale(0.71, 0.8);
+    bfss.setPosition(1100, 40);
+
+    hmpt.loadFromFile("hmps.png");
+    hmps.setTexture(hmpt);
+    hmps.setScale(0.71, 0.8);
+    hmps.setPosition(1100, 150);
+
+    b1t.loadFromFile("b11.png");
+    b1s.setTexture(b1t);
+    b1s.setScale(0.8, 0.9);
+    b1s.setPosition(1115, 280);
+
+    b2t.loadFromFile("b22.png");
+    b2s.setTexture(b2t);
+    b2s.setScale(0.8, 0.9);
+    b2s.setPosition(1115, 390);
+
+    b3t.loadFromFile("b33.png");
+    b3s.setTexture(b3t);
+    b3s.setScale(0.8, 0.9);
+    b3s.setPosition(1115, 500);
+
+    b4t.loadFromFile("b44.png");
+    b4s.setTexture(b4t);
+    b4s.setScale(0.8, 0.9);
+    b4s.setPosition(1115, 610);
+
+    b5t.loadFromFile("b55.png");
+    b5s.setTexture(b5t);
+    b5s.setScale(0.8, 0.9);
+    b5s.setPosition(1115, 720);
+
+    b6t.loadFromFile("b66.png");
+    b6s.setTexture(b6t);
+    b6s.setScale(0.8, 0.9);
+    b6s.setPosition(1115, 830);
+
+    sf::Font font;
+
+    sp.setFont(font);
+    sp.setString(intToString(speed));
+    sp.setCharacterSize(80);
+    sp.setFillColor(sf::Color::Yellow);
+    sp.setStyle(sf::Text::Bold);
+    sp.move(1250, 1295);
+
+    nnp.setFont(font);
+    nnp.setString(intToString(ARRAY_SIZE));
+    nnp.setCharacterSize(80);
+    nnp.setFillColor(sf::Color::Yellow);
+    nnp.setStyle(sf::Text::Bold);
+    nnp.move(1250, 1390);
+    int seconds = 0;
+    int milliseconds = 0;
+    timerText.setFont(font);
+    timerText.setString(intToString(minutes) + "m " + intToString(seconds) + "s " + intToString(milliseconds) + "ms");
+    timerText.setCharacterSize(40);
+    timerText.setFillColor(sf::Color::Black);
+    timerText.setStyle(sf::Text::Bold);
+    timerText.move(360, 1340);
+    software(window);
+    return 0;
+}

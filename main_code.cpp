@@ -352,6 +352,104 @@ void insertionSort(sf::RenderWindow& window, vector<int>& array)
             sleep(sf::milliseconds(speed));  // Sleep for visualization effect
         }
     }
+struct NodeL {
+    int value;
+    NodeL* prev;
+    NodeL* next;
+
+    NodeL(int val) : value(val), prev(nullptr), next(nullptr) {}
+};
+
+class DoublyLinkedList {
+public:
+    NodeL* head;
+    NodeL* tail;
+
+    DoublyLinkedList() : head(nullptr), tail(nullptr) {}
+
+    // Function to add a node to the list
+    void push_back(int value) {
+        NodeL* newNode = new NodeL(value);
+        if (!head) {
+            head = tail = newNode;
+        }
+        else {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
+    }
+
+    // Function to swap two nodes
+    void swap(NodeL* node1, NodeL* node2) {
+        if (node1 == node2) return;
+
+        int temp = node1->value;
+        node1->value = node2->value;
+        node2->value = temp;
+    }
+
+    // Function to convert the linked list back to an array
+    void toArray(std::vector<int>& array) {
+        NodeL* current = head;
+        while (current) {
+            array.push_back(current->value);
+            current = current->next;
+        }
+    }
+};
+
+// Selection Sort implementation on Doubly Linked List
+void selectionSort(sf::RenderWindow& window, std::vector<int>& array) {
+    // Step 1: Convert the vector to a doubly linked list
+    DoublyLinkedList list;
+    for (int i = 0; i < array.size(); ++i) {
+        list.push_back(array[i]);
+    }
+
+    // Step 2: Perform selection sort on the doubly linked list
+    NodeL* current = list.head;
+    while (current && current->next) {
+        NodeL* minNode = current;
+        NodeL* nextNode = current->next;
+        while (nextNode) {
+            // Compare values to find the minimum element
+            if (nextNode->value < minNode->value) {
+                minNode = nextNode;
+            }
+            nextNode = nextNode->next;
+        }
+
+        // Swap if the minimum node is not the current node
+        if (minNode != current) {
+            list.swap(current, minNode);
+        }
+
+        // Step 3: Convert the sorted linked list back to an array for visualization
+        std::vector<int> sortedArray;
+        list.toArray(sortedArray);
+
+        // Visualize the sorting progress
+        drawArray(window, sortedArray, 0, sortedArray.size() - 1, false, false);
+
+        // Handle window events like closing
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+                return;
+            }
+        }
+
+        sf::sleep(sf::milliseconds(100)); // Adjust speed for visualization
+        current = current->next;
+    }
+
+    // After sorting, the sorted list is stored back into the vector
+    std::vector<int> sortedArray;
+    list.toArray(sortedArray);
+    array = sortedArray; // Store the sorted array in the original vector
+}
 
     delete[] shiftStack;  // Clean up dynamically allocated memory at the end
 }

@@ -59,4 +59,34 @@
     <li><strong>Bubble Sort</strong>: A simple comparison-based algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order.</li>
     <li><strong>Merge Sort</strong>: A divide-and-conquer algorithm that divides the array into halves, sorts them, and then merges them back together.</li>
     <li><strong>Insertion Sort</strong>: Builds a sorted array one element at a time by repeatedly taking an element from the unsorted part and inserting it into the correct position in the sorted part.</li>
-    <li><strong>Selection Sort</strong>: Divides the input list into two parts: a
+    <li><strong>Selection Sort</strong>: Divides the input list into two parts: 
+<h2 id="visualization">Visualization</h2>
+<p>The visualization is implemented using the SFML (Simple and Fast Multimedia Library) framework, allowing for real-time graphical representation of the sorting processes. Each algorithm's steps are displayed, highlighting the elements being compared and swapped, as well as the structure of the data being manipulated.</p>
+
+<h3>Key Features:</h3>
+<ul>
+    <li>Real-time visualization of sorting algorithms.</li>
+    <li>Interactive elements to pause, resume, and close the visualization.</li>
+    <li>Graphical representation of data structures (e.g., trees, linked lists, hashmaps).</li>
+</ul>
+
+<h2 id="usage">Usage</h2>
+<p>To run the project, ensure you have the SFML library installed. Compile the code and execute the program. You can interact with the visualization by clicking buttons to start the sorting process and observe how different data structures are manipulated.</p>
+
+<h3>Example Commands:</h3>
+<pre><code>
+# Compile the project
+g++ -o sorting_visualization main.cpp -lsfml-graphics -lsfml-window -lsfml-system
+
+# Run the visualization
+./sorting_visualization
+</code></pre>
+
+<h2 id="contributing">Contributing</h2>
+<p>Contributions are welcome! If you have suggestions for improvements or additional features, feel free to open an issue or submit a pull request.</p>
+
+<h2 id="license">License</h2>
+<p>This project is licensed under the MIT License. See the <a href="LICENSE">LICENSE</a> file for more details.</p>
+
+</body>
+</html>

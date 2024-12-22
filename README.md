@@ -1,169 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithms Visualization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #eaeaea;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #eaeaea;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <div align="center">
-        <h1>Data Structures & Algorithms Visualization Engine</h1>
-        <p>A high-performance, interactive visualization tool for understanding complex data structures and algorithms</p>  
-    </div>
-    <h2>📖 Overview</h2>
-    <p>
-        The DSA Visualization Engine is a sophisticated educational tool designed to bridge the gap between theoretical computer science concepts and their practical implementation. Built with C++ and SFML, it provides real-time, interactive visualizations of fundamental data structures and algorithms, making complex concepts accessible through intuitive visual representations.
-    </p>
-    <h2>🌟 Key Features</h2>
-    <h3>Comprehensive Algorithm Suite</h3>
-    <ul>
-        <li><strong>Sorting Algorithms</strong>
-            <ul>
-                <li>Comparison-Based: Bubble Sort, Merge Sort, Quick Sort</li>
-                <li>Distribution: Insertion Sort with Stack Implementation</li>
-                <li>Hybrid: Custom Selection Sort with Doubly Linked List</li>
-            </ul>
-        </li>
-        <li><strong>Tree Operations</strong>
-            <ul>
-                <li>Binary Search Tree with AVL balancing</li>
-                <li>Real-time traversal visualization</li>
-                <li>Dynamic node rebalancing</li>
-            </ul>
-        </li>
-        <li><strong>Graph Algorithms</strong>
-            <ul>
-                <li>Breadth-First Search with state visualization</li>
-                <li>Interactive node-edge manipulation</li>
-                <li>Real-time path finding</li>
-            </ul>
-        </li>
-        <li><strong>Hash Structure</strong>
-            <ul>
-                <li>Open addressing with linear probing</li>
-                <li>Collision resolution through chaining</li>
-                <li>Load factor visualization</li>
-            </ul>
-        </li>
-    </ul>
-    <h2>💻 Technical Architecture</h2>
-    <h3>Core Components</h3>
-    <pre><code>src/
-├── algorithms/
-│   ├── sorting/
-│   ├── tree/
-│   ├── graph/
-│   └── hash/
-├── visualization/
-│   ├── renderer/
-│   └── components/
-└── utils/
-    ├── data_generator/
-    └── performance_metrics/</code></pre>
-    <h3>Implementation Highlights</h3>
-    <pre><code>// Advanced BST Implementation with Visualization Support
-class BinarySearchTree {
-private:
-    struct Node {
-        int value;
-        Node* left;
-        Node* right;
-        Vector2f position;
-        float animationOffset;
-        Node(int v) : value(v), left(nullptr), right(nullptr),
-                     position(0, 0), animationOffset(0) {}
-    };
-    Node* root;
-    RenderWindow& window;
-    std::unique_ptr<Renderer> renderer;
-public:
-    void insert(int value) {
-        root = insertWithAnimation(root, value);
-        rebalanceTree();
-        updateNodePositions();
-    }
-    void visualize() {
-        renderer->beginFrame();
-        drawTree(root);
-        renderer->endFrame();
-    }
-};</code></pre>
-    <h2>🔍 Performance Analysis</h2>
-    <h3>Algorithm Complexity</h3>
-    <table>
-        <tr>
-            <th>Operation</th>
-            <th>Time Complexity</th>
-            <th>Space Complexity</th>
-            <th>Implementation Notes</th>
-        </tr>
-        <tr>
-            <td>BST Operations</td>
-            <td>O(log n)</td>
-            <td>O(h)</td>
-            <td>Height-balanced implementation</td>
-        </tr>
-        <tr>
-            <td>Hash Operations</td>
-            <td>O(1) amortized</td>
-            <td>O(n)</td>
-            <td>Dynamic resizing with load factor</td>
-        </tr>
-        <tr>
-            <td>Graph Traversal</td>
-            <td>O(V + E)</td>
-            <td>O(V)</td>
-            <td>Optimized adjacency list</td>
-        </tr>
-    </table>
-    <h2>🛠️ Development Setup</h2>  
-    <h3>Prerequisites</h3>
-    <pre><code>- C++17 compatible compiler
-- SFML 2.5.1 or higher
-- CMake 3.15+
-- 4GB RAM minimum
-- OpenGL 3.3+ compatible GPU</code></pre>
-    <h3>Build Instructions</h3>
-    <pre><code># Clone the repository
-git clone https://github.com/yourusername/dsa-visualization-engine.git
-    <h2>🎓 Educational Applications</h2>
-    <ul>
-        <li><strong>Interactive Learning</strong>
-            <ul>
-                <li>Step-by-step algorithm execution</li>
-                <li>Visual state transitions</li>
-                <li>Real-time complexity analysis</li>
-            </ul>
-        </li>
-        <li><strong>Teaching Aid</strong>
-            <ul>
-                <li>Classroom demonstrations</li>
-                <li>Algorithm comparison</li>
-                <li>Performance visualization</li>
-            </ul>
-        </li>
-    </ul>
-    <h2>🤝 Contributing</h2>
-    <p>We welcome contributions! Please see our <code>CONTRIBUTING.md</code> for guidelines.</p>
-    <h3>Development Workflow</h3>
-    <ol>
-        <li>Fork the repository</li>
-        <li>Create a feature branch (<code>git checkout -b feature/improvement</code>)</li>
-        <li>Make your changes with appropriate tests</li>
-        <li>Update documentation as needed</li>
-        <li>Submit a pull request</li>
-    </ol>
-    <h2>📄 License</h2>
-    <p>This project is licensed under the MIT License - see the <code>LICENSE</code> file for details.</p>
-    <h2>📚 Documentation</h2>
-    <p>Comprehensive documentation is available in the <code>docs/</code> directory:</p>
-    <ul>
-        <li><code>api_reference.md</code> - Detailed API documentation</li>
-        <li><code>architecture.md</code> - System architecture and design</li>
-        <li><code>contributing.md</code> - Contribution guidelines</li>
-    </ul>
-    <hr>
-    <div align="center">
-        <p>Built with precision and passion for computer science education.</p>
-        <p>© 2024 DSA Visualization Engine Team</p>
-    </div>
-</body>
-</html>
+
+<h1>Sorting Algorithms Visualization</h1>
+
+<p>This project implements various sorting algorithms using different data structures, providing a visual representation of the sorting process. The primary focus is on the utilization of data structures such as arrays, linked lists, trees, and hashmaps, showcasing their roles in sorting and data management.</p>
+
+<h2>Table of Contents</h2>
+<ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#data-structures-used">Data Structures Used</a></li>
+    <li><a href="#sorting-algorithms-implemented">Sorting Algorithms Implemented</a></li>
+    <li><a href="#visualization">Visualization</a></li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+<p>Sorting algorithms are fundamental in computer science, and understanding their mechanics is crucial for optimizing performance in various applications. This project not only implements sorting algorithms but also visualizes the process, making it easier to grasp how different data structures affect the sorting performance and behavior.</p>
+
+<h2 id="data-structures-used">Data Structures Used</h2>
+<ol>
+    <li><strong>Arrays</strong>: 
+        <ul>
+            <li>Used in Bubble Sort, Merge Sort, Insertion Sort, Selection Sort, and Quick Sort.</li>
+            <li>Provides a simple and efficient way to store and access elements.</li>
+        </ul>
+    </li>
+    <li><strong>Doubly Linked Lists</strong>:
+        <ul>
+            <li>Implemented in Selection Sort.</li>
+            <li>Allows for efficient insertion and deletion of nodes, showcasing how linked lists can be used to manage data dynamically.</li>
+        </ul>
+    </li>
+    <li><strong>Binary Search Trees (BST)</strong>:
+        <ul>
+            <li>Used to visualize the insertion and deletion of nodes.</li>
+            <li>Demonstrates how tree structures can maintain sorted data and allow for efficient searching.</li>
+        </ul>
+    </li>
+    <li><strong>Hashmaps</strong>:
+        <ul>
+            <li>Visualized to demonstrate how data can be stored and accessed using key-value pairs.</li>
+            <li>Provides insight into collision handling and the efficiency of hash-based data storage.</li>
+        </ul>
+    </li>
+    <li><strong>Graphs</strong>:
+        <ul>
+            <li>Visualized using BFS (Breadth-First Search) to demonstrate graph traversal.</li>
+            <li>Shows how nodes and edges can represent relationships and connections in data.</li>
+        </ul>
+    </li>
+</ol>
+
+<h2 id="sorting-algorithms-implemented">Sorting Algorithms Implemented</h2>
+<ol>
+    <li><strong>Bubble Sort</strong>: A simple comparison-based algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order.</li>
+    <li><strong>Merge Sort</strong>: A divide-and-conquer algorithm that divides the array into halves, sorts them, and then merges them back together.</li>
+    <li><strong>Insertion Sort</strong>: Builds a sorted array one element at a time by repeatedly taking an element from the unsorted part and inserting it into the correct position in the sorted part.</li>
+    <li><strong>Selection Sort</strong>: Divides the input list into two parts: a

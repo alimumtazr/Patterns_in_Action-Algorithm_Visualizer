@@ -14,7 +14,6 @@
     <li><a href="#visualization">Visualization</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
 </ul>
 
 <h2 id="introduction">Introduction</h2>
@@ -85,8 +84,6 @@ g++ -o sorting_visualization main.cpp -lsfml-graphics -lsfml-window -lsfml-syste
 <h2 id="contributing">Contributing</h2>
 <p>Contributions are welcome! If you have suggestions for improvements or additional features, feel free to open an issue or submit a pull request.</p>
 
-<h2 id="license">License</h2>
-<p>This project is licensed under the MIT License. See the <a href="LICENSE">LICENSE</a> file for more details.</p>
 
 </body>
 </html>

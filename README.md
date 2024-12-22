@@ -127,11 +127,7 @@ public:
 git clone https://github.com/yourusername/dsa-visualization-engine.git
 
 # Create build directory
-mkdir build && cd build
 
-# Configure and build
-cmake ..
-cmake --build . --config Release
 
 # Run the application
 ./dsa_visualizer</code></pre>

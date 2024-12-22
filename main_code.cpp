@@ -943,3 +943,187 @@ public:
         }
     }
 };
+using namespace sf;
+struct NodeG {
+    CircleShape shape;
+    Vector2f position;
+    Text label;
+    int id;
+}
+    ;
+    // Edge structure
+    struct Edge {
+        Vertex line[2];
+        int from;
+        int to;
+    }
+    ;
+    class BFSVisualizer {
+    private:
+        std::vector<NodeG> nodes;
+        std::vector<Edge> edges;
+        std::unordered_map<int, std::vector<int>> adjacencyList;
+        Font font;
+        Text infoText;
+        Text instructionText;
+        std::queue<int> bfsQueue;
+        std::unordered_map<int, bool> visited;
+        bool isBFSRunning = false;
+        Vector2f originalSize{ 1200, 800 }; // Window size
+        void initializeGraph() {
+            // Create nodes in a more spread out pattern
+            addNode(200, 200, "0");  // Node 0
+            addNode(400, 200, "1");  // Node 1
+            addNode(600, 200, "2");  // Node 2
+            addNode(200, 400, "3");  // Node 3
+            addNode(400, 400, "4");  // Node 4
+            addNode(600, 400, "5");  // Node 5
+            addNode(400, 600, "6");  // Node 6
+            // Create edges to form a connected graph
+            addEdge(0, 1);
+            addEdge(1, 2);
+            addEdge(0, 3);
+            addEdge(1, 4);
+            addEdge(2, 5);
+            addEdge(3, 4);
+            addEdge(4, 5);
+            addEdge(3, 6);
+            addEdge(4, 6);
+        }
+        void addNode(float x, float y, const std::string& label) {
+            NodeG node;
+            node.position = { x, y };
+            node.shape.setRadius(30);
+            node.shape.setFillColor(Color::White);
+            node.shape.setOutlineColor(Color::Black);
+            node.shape.setOutlineThickness(2);
+            node.shape.setPosition(x - 30, y - 30);  // Center the circle on the position
+            node.id = nodes.size();
+            // Setup node label
+            node.label.setFont(font);
+            node.label.setString(label);
+            node.label.setCharacterSize(20);
+            node.label.setFillColor(Color::Black);
+            node.label.setPosition(x - 10, y - 15);  // Center the text in the node
+            nodes.push_back(node);
+            adjacencyList[node.id] = {};
+        }
+        void addEdge(int from, int to) {
+            Edge edge;
+            edge.line[0].position = nodes[from].position;
+            edge.line[1].position = nodes[to].position;
+            edge.line[0].color = Color::Black;
+            edge.line[1].color = Color::Black;
+            edge.from = from;
+            edge.to = to;
+            edges.push_back(edge);
+            // Add both directions for undirected graph
+            adjacencyList[from].push_back(to);
+            adjacencyList[to].push_back(from);
+        }
+        int getNodeAtPosition(Vector2i mousePos) {
+            for (const auto& node : nodes) {
+                float dx = mousePos.x - node.position.x;
+                float dy = mousePos.y - node.position.y;
+                if (dx * dx + dy * dy <= 30 * 30) {
+                    return node.id;
+                }
+            }
+            return -1;
+        }
+        void startBFS(int startNode) {
+            // Reset all nodes to white
+            for (auto& node : nodes) {
+                node.shape.setFillColor(Color::White);
+            }
+            // Clear previous BFS data
+            while (!bfsQueue.empty()) bfsQueue.pop();
+            visited.clear();
+            isBFSRunning = true;
+            // Initialize BFS
+            bfsQueue.push(startNode);
+            visited[startNode] = true;
+            nodes[startNode].shape.setFillColor(Color::Green);
+        }
+        void processBFS() {
+            if (!bfsQueue.empty()) {
+                int currentNode = bfsQueue.front();
+                bfsQueue.pop();
+                // Process all neighbors
+                for (int neighbor : adjacencyList[currentNode]) {
+                    if (!visited[neighbor]) {
+                        visited[neighbor] = true;
+                        bfsQueue.push(neighbor);
+                        nodes[neighbor].shape.setFillColor(Color::Green);
+                    }
+                }
+                // Mark current node as processed
+                nodes[currentNode].shape.setFillColor(Color::Blue);
+            }
+            else {
+                isBFSRunning = false;
+            }
+        }
+        void updateInfoText() {
+            std::ostringstream oss;
+            oss << "Nodes: " << nodes.size() << "\nQueue Size: " << bfsQueue.size();
+            infoText.setString(oss.str());
+        }
+    public:
+        BFSVisualizer() {
+            if (!font.loadFromFile("art.ttf")) {  // Make sure you have this font file
+                // Handle font loading error
+                throw std::runtime_error("Failed to load font");
+            }
+            // Initialize info text
+            infoText.setFont(font);
+            infoText.setCharacterSize(20);
+            infoText.setFillColor(Color::Black);
+            infoText.setPosition(10, 10);
+            // Initialize instruction text
+            instructionText.setFont(font);
+            instructionText.setString("Click on any node to start BFS");
+            instructionText.setCharacterSize(20);
+            instructionText.setFillColor(Color::Black);
+            instructionText.setPosition(10, 50);
+            initializeGraph();
+        }
+        void run() {
+            RenderWindow window(VideoMode(1200, 800), "BFS Visualization");
+            window.setFramerateLimit(60);
+            while (window.isOpen()) {
+                Event event;
+                while (window.pollEvent(event)) {
+                    if (event.type == Event::Closed)
+                        window.close();
+                    if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
+                        if (!isBFSRunning) {
+                            int clickedNode = getNodeAtPosition(Mouse::getPosition(window));
+                            if (clickedNode != -1) {
+                                startBFS(clickedNode);
+                            }
+                        }
+                    }
+                }
+                if (isBFSRunning) {
+                    processBFS();
+                    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                }
+                updateInfoText();
+                window.clear(Color::White);
+                // Draw edges
+                for (const auto& edge : edges) {
+                    window.draw(edge.line, 2, Lines);
+                }
+                // Draw nodes and labels
+                for (const auto& node : nodes) {
+                    window.draw(node.shape);
+                    window.draw(node.label);
+                }
+                // Draw UI elements
+                window.draw(infoText);
+                window.draw(instructionText);
+                window.display();
+            }
+        }
+    };
